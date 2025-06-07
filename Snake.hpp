@@ -10,6 +10,7 @@ class Snake {
 public:
     Snake(std::string name, sf::Vector2i startingHeadPos, unsigned int startingLength = 3);
     ~Snake();
+    void respawn();
 
     sf::Vector2i getPos() const;
     const sf::Vector2f& getHeadPos() const;
@@ -25,6 +26,9 @@ public:
     const sf::Vector2f& getDir() const;
 
     void augmente(int ammount = 1);
+
+    int isOutOfScreen() const;
+    int isOnItself() const;
 
 private:
     sf::Clock clock;

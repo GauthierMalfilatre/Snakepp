@@ -16,6 +16,18 @@ Snake::Snake(std::string name, sf::Vector2i startingHeadPos, unsigned int starti
 
 Snake::~Snake() {}
 
+void Snake::respawn() {
+    this->length = 3;
+    this->score = 0;
+    this->direction = sf::Vector2f(0, -1);
+    this->body.clear();
+    for (int i = 0; i < this->length; i++) {
+        this->body.push_back(SnakePart(WIN_W / 2 / 20, WIN_H / 2 / 20 + i));
+        this->body[i].setShapeColor(sf::Color::Green);
+        this->body[i].setShapeSize(sf::Vector2f(20.f, 20.f));
+    }
+}
+
 int Snake::getScore() const {
     return this->score;
 }
@@ -77,4 +89,21 @@ int Snake::getLength() const {
 
 const std::string& Snake::getName() const {
     return this->name;
+}
+
+int Snake::isOutOfScreen() const {
+    sf::Vector2f headPos = getHeadPos();
+
+    return (headPos.x < 0 || headPos.x >= WIN_W / 20 || headPos.y < 0 || headPos.y >= WIN_H);
+}
+
+int Snake::isOnItself() const {
+    sf::Vector2f headPos = getHeadPos();
+
+    for (int i = 1; i < this->body.size(); i++) {
+        if (this->body[i].getPos() == headPos) {
+            return 1;
+        }
+    }
+    return 0;
 }

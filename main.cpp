@@ -32,6 +32,13 @@ static void check_collisions(Snake &snake, Apple &apple)
     }
 }
 
+static int check_endgame(Snake &snake, Apple &apple) {
+    if (snake.isOutOfScreen() || snake.isOnItself()) {
+        return 1;
+    }
+    return 0;
+}
+
 int main(int argc, char *argv[])
 {
     sf::RenderWindow window(sf::VideoMode(WIN_W, WIN_H), "SFML window");
@@ -51,6 +58,11 @@ int main(int argc, char *argv[])
         window.clear(sf::Color(22, 22, 22));
         snake->update(*apple);
         check_collisions(*snake, *apple);
+        if (check_endgame(*snake, *apple)) {
+            snake->respawn();
+            apple->spawn();
+            std::cout << "Game over!" << std::endl;
+        }
         snake->render(window);
         apple->render(window);
         window.display();
