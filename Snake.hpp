@@ -1,7 +1,9 @@
 #ifndef SNAKE_HPP
     #define SNAKE_HPP
     #include "main.hpp"
+    #include "Snake.hpp"
 
+class Apple;
 class SnakePart;
 
 class Snake {
@@ -10,15 +12,18 @@ public:
     ~Snake();
 
     sf::Vector2i getPos() const;
+    const sf::Vector2f& getHeadPos() const;
     const std::string& getName() const;
     int getLength() const;
     int getScore() const;
 
     void increaseScore(int amount = 1);
-    void update();
+    void update(Apple& apple);
     void render(sf::RenderWindow& window) const;
 
     void changeDir(float x, float y);
+    const sf::Vector2f& getDir() const;
+
     void augmente(int ammount = 1);
 
 private:

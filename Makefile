@@ -1,4 +1,5 @@
 SRC = 	main.cpp \
+		Apple.cpp \
 		SnakePart.cpp \
 		Snake.cpp \
 

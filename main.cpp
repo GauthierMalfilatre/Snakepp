@@ -1,6 +1,7 @@
 #include "main.hpp"
+#include "Apple.hpp"
 
-static void keyboard(Snake& snake)
+static void keyboard(Snake &snake)
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
         snake.changeDir(1, 0);
@@ -19,11 +20,26 @@ static void keyboard(Snake& snake)
     }
 }
 
+static void check_collisions(Snake &snake, Apple &apple)
+{
+    sf::Vector2f snakePos = snake.getHeadPos();
+    sf::Vector2f applePos = apple.getPos();
+
+    if (snakePos.x == applePos.x && snakePos.y == applePos.y) {
+        snake.increaseScore();
+        snake.augmente();
+        apple.spawn();
+    }
+}
+
 int main(int argc, char *argv[])
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
-    Snake* snake = new Snake("Maxence", sf::Vector2i(800 / 2, 600 / 2));
+    sf::RenderWindow window(sf::VideoMode(WIN_W, WIN_H), "SFML window");
+    Snake *snake = new Snake("Maxence", sf::Vector2i(WIN_W / 2, WIN_H / 2));
+    Apple *apple = new Apple();
 
+    srand(time(NULL));
+    apple->spawn();
     while (window.isOpen()) {
         sf::Event evt;
         while (window.pollEvent(evt)) {
@@ -32,11 +48,13 @@ int main(int argc, char *argv[])
             }
             keyboard(*snake);
         }
-        window.clear(sf::Color::Blue);
-        snake->update();
+        window.clear(sf::Color(22, 22, 22));
+        snake->update(*apple);
+        check_collisions(*snake, *apple);
         snake->render(window);
+        apple->render(window);
         window.display();
-        window.setFramerateLimit(5);
     }
+    delete apple;
     delete snake;
 }
