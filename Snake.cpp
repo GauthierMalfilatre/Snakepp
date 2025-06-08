@@ -94,7 +94,7 @@ const std::string& Snake::getName() const {
 int Snake::isOutOfScreen() const {
     sf::Vector2f headPos = getHeadPos();
 
-    return (headPos.x < 0 || headPos.x >= WIN_W / 20 || headPos.y < 0 || headPos.y >= WIN_H);
+    return (headPos.x < 0 || headPos.x >= WIN_W / 20 || headPos.y < 0 || headPos.y >= WIN_H / 20);
 }
 
 int Snake::isOnItself() const {
